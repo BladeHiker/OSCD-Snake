@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="gb2312"?>
+<OSLProject Version="1.00" Name="Snake0" ProjectType="linux011" SubjectID="1580a23c-aa04-4cf3-8cca-488dc577df8d" IncrementalUpload="-1" TemplatePath="linux011\Project" ProjectID="2d68e6f6-20d0-4a3b-9950-c0e1925d9ba5" IsSubmitWork="0">
+	<Configurations>
+		<Configuration Name="Debug" DebuggerFlavor="1" RemoteMachine="5" PreDebugCommand="">
+			<Tool Name="PreBuildEventTool"/>
+			<Tool Name="CustomBuildTool"/>
+			<Tool Name="GCCCompilerTool" AdditionalIncludeDirectories="include" ObjectFile="$(InputDir)$(InputName).o" GenerateDebugInformation="-1" DefaultCharIsUnsigned="0" AdditionalOptions="-Wall -nostdinc -fno-builtin"/>
+			<Tool Name="NASMAssemblerTool" ObjectFile="$(InputDir)$(InputName).o" ListFile="$(InputDir)$(InputName).lst"/>
+			<Tool Name="PreLinkEventTool"/>
+			<Tool Name="GCCLinkerTool" OutputFile="$(OutDir)\linux011.exe" IgnoreStandardLibraries="-1" EntryPointSymbol="startup_11" BaseAddress="0x0000" AdditionalOptions="-Wl,-Ttext,&quot;0&quot;"/>
+			<Tool Name="PostBuildEventTool" CommandLine="echo 正在生成内核映像文件...&#xA;copy &quot;$(TargetPath)&quot; &quot;$(TargetDir)$(TargetName).tmp&quot;&#xA;strip &quot;$(TargetDir)$(TargetName).tmp&quot;&#xA;pe2bin.exe &quot;$(TargetDir)$(TargetName).tmp&quot; &quot;$(TargetDir)$(TargetName).bin&quot;&#xA;del &quot;$(TargetDir)$(TargetName).tmp&quot;&#xA;echo 正在制作引导软盘映像文件...&#xA;mkfloppy.exe &quot;$(OutDir)\bootsect.bin&quot; &quot;$(OutDir)\setup.bin&quot; &quot;$(TargetDir)$(TargetName).bin&quot; &quot;floppya.img&quot;&#xA;" Description=""/>
+		</Configuration>
+	</Configurations>
+	<Files>
+		<Filter Name="bochs">
+			<File RelativePath=".\bochs\BIOS-bochs-latest" NoUpload="-1">
+			</File>
+			<File RelativePath=".\bochs\bochs.exe" NoUpload="-1">
+			</File>
+			<File RelativePath=".\bochs\bochsdbg.exe" NoUpload="-1">
+			</File>
+			<File RelativePath=".\bochs\bochsrc.bxrc" NoUpload="-1">
+			</File>
+			<File RelativePath=".\bochs\bochsrcdbg.bxrc" NoUpload="-1">
+			</File>
+			<File RelativePath=".\bochs\VGABIOS-lgpl-latest" NoUpload="-1">
+			</File>
+		</Filter>
+		<Filter Name="boot">
+			<File RelativePath=".\boot\bootsect.asm">
+				<FileConfiguration Name="Debug">
+					<Tool Name="NASMAssemblerTool" ObjectFile="$(IntDir)\$(InputName).bin" ObjectFormate="bin"/>
+				</FileConfiguration>
+			</File>
+			<File RelativePath=".\boot\head.s">
+				<FileConfiguration Name="Debug">
+					<Tool Name="GCCCompilerTool" ListFile="$(InputDir)$(InputName).lst" AdditionalOptions=""/>
+				</FileConfiguration>
+			</File>
+			<File RelativePath=".\boot\setup.asm">
+				<FileConfiguration Name="Debug">
+					<Tool Name="NASMAssemblerTool" ObjectFile="$(IntDir)\$(InputName).bin" ObjectFormate="bin"/>
+				</FileConfiguration>
+			</File>
+		</Filter>
+		<Filter Name="fs">
+			<File RelativePath=".\fs\bitmap.c">
+			</File>
+			<File RelativePath=".\fs\block_dev.c">
+			</File>
+			<File RelativePath=".\fs\buffer.c">
+			</File>
+			<File RelativePath=".\fs\char_dev.c">
+			</File>
+			<File RelativePath=".\fs\exec.c">
+			</File>
+			<File RelativePath=".\fs\fcntl.c">
+			</File>
+			<File RelativePath=".\fs\file_dev.c">
+			</File>
+			<File RelativePath=".\fs\file_table.c">
+			</File>
+			<File RelativePath=".\fs\inode.c">
+			</File>
+			<File RelativePath=".\fs\ioctl.c">
+			</File>
+			<File RelativePath=".\fs\namei.c">
+			</File>
+			<File RelativePath=".\fs\open.c">
+			</File>
+			<File RelativePath=".\fs\pipe.c">
+			</File>
+			<File RelativePath=".\fs\read_write.c">
+			</File>
+			<File RelativePath=".\fs\select.c">
+			</File>
+			<File RelativePath=".\fs\stat.c">
+			</File>
+			<File RelativePath=".\fs\super.c">
+			</File>
+			<File RelativePath=".\fs\truncate.c">
+			</File>
+		</Filter>
+		<Filter Name="include">
+			<Filter Name="asm">
+				<File RelativePath=".\include\asm\io.h">
+				</File>
+				<File RelativePath=".\include\asm\memory.h">
+				</File>
+				<File RelativePath=".\include\asm\segment.h">
+				</File>
+				<File RelativePath=".\include\asm\system.h">
+				</File>
+			</Filter>
+			<Filter Name="linux">
+				<File RelativePath=".\include\linux\config.h">
+				</File>
+				<File RelativePath=".\include\linux\fdreg.h">
+				</File>
+				<File RelativePath=".\include\linux\fs.h">
+				</File>
+				<File RelativePath=".\include\linux\hdreg.h">
+				</File>
+				<File RelativePath=".\include\linux\head.h">
+				</File>
+				<File RelativePath=".\include\linux\kernel.h">
+				</File>
+				<File RelativePath=".\include\linux\mm.h">
+				</File>
+				<File RelativePath=".\include\linux\sched.h">
+				</File>
+				<File RelativePath=".\include\linux\sys.h">
+				</File>
+				<File RelativePath=".\include\linux\tty.h">
+				</File>
+			</Filter>
+			<Filter Name="sys">
+				<File RelativePath=".\include\sys\stat.h">
+				</File>
+				<File RelativePath=".\include\sys\times.h">
+				</File>
+				<File RelativePath=".\include\sys\types.h">
+				</File>
+				<File RelativePath=".\include\sys\utsname.h">
+				</File>
+				<File RelativePath=".\include\sys\wait.h">
+				</File>
+			</Filter>
+			<File RelativePath=".\include\a.out.h">
+			</File>
+			<File RelativePath=".\include\const.h">
+			</File>
+			<File RelativePath=".\include\ctype.h">
+			</File>
+			<File RelativePath=".\include\errno.h">
+			</File>
+			<File RelativePath=".\include\fcntl.h">
+			</File>
+			<File RelativePath=".\include\signal.h">
+			</File>
+			<File RelativePath=".\include\stdarg.h">
+			</File>
+			<File RelativePath=".\include\stddef.h">
+			</File>
+			<File RelativePath=".\include\string.h">
+			</File>
+			<File RelativePath=".\include\termios.h">
+			</File>
+			<File RelativePath=".\include\time.h">
+			</File>
+			<File RelativePath=".\include\unistd.h">
+			</File>
+			<File RelativePath=".\include\utime.h">
+			</File>
+		</Filter>
+		<Filter Name="init">
+			<File RelativePath=".\init\main.c">
+				<FileConfiguration Name="Debug">
+					<Tool Name="GCCCompilerTool" AdditionalOptions="-Wall -nostdinc -fno-builtin -O"/>
+				</FileConfiguration>
+			</File>
+		</Filter>
+		<Filter Name="kernel">
+			<Filter Name="blk_drv">
+				<File RelativePath=".\kernel\blk_drv\blk.h">
+				</File>
+				<File RelativePath=".\kernel\blk_drv\floppy.c">
+				</File>
+				<File RelativePath=".\kernel\blk_drv\hd.c">
+				</File>
+				<File RelativePath=".\kernel\blk_drv\ll_rw_blk.c">
+				</File>
+				<File RelativePath=".\kernel\blk_drv\ramdisk.c">
+				</File>
+			</Filter>
+			<Filter Name="chr_drv">
+				<File RelativePath=".\kernel\chr_drv\console.c">
+				</File>
+				<File RelativePath=".\kernel\chr_drv\keyboard.s">
+					<FileConfiguration Name="Debug">
+						<Tool Name="GCCCompilerTool" AdditionalOptions=""/>
+					</FileConfiguration>
+				</File>
+				<File RelativePath=".\kernel\chr_drv\rs_io.s">
+					<FileConfiguration Name="Debug">
+						<Tool Name="GCCCompilerTool" AdditionalOptions=""/>
+					</FileConfiguration>
+				</File>
+				<File RelativePath=".\kernel\chr_drv\serial.c">
+				</File>
+				<File RelativePath=".\kernel\chr_drv\tty_io.c">
+				</File>
+				<File RelativePath=".\kernel\chr_drv\tty_ioctl.c">
+				</File>
+			</Filter>
+			<Filter Name="math">
+				<File RelativePath=".\kernel\math\math_emulate.c">
+				</File>
+			</Filter>
+			<File RelativePath=".\kernel\asm.s">
+				<FileConfiguration Name="Debug">
+					<Tool Name="GCCCompilerTool" AdditionalOptions=""/>
+				</FileConfiguration>
+			</File>
+			<File RelativePath=".\kernel\exit.c">
+			</File>
+			<File RelativePath=".\kernel\fork.c">
+				<FileConfiguration Name="Debug">
+					<Tool Name="GCCCompilerTool" AdditionalOptions="-Wall -nostdinc -fno-builtin -O"/>
+				</FileConfiguration>
+			</File>
+			<File RelativePath=".\kernel\mktime.c">
+			</File>
+			<File RelativePath=".\kernel\panic.c">
+			</File>
+			<File RelativePath=".\kernel\printk.c">
+			</File>
+			<File RelativePath=".\kernel\sched.c">
+			</File>
+			<File RelativePath=".\kernel\signal.c">
+			</File>
+			<File RelativePath=".\kernel\sys.c">
+			</File>
+			<File RelativePath=".\kernel\system_call.s">
+				<FileConfiguration Name="Debug">
+					<Tool Name="GCCCompilerTool" AdditionalOptions=""/>
+				</FileConfiguration>
+			</File>
+			<File RelativePath=".\kernel\traps.c">
+			</File>
+			<File RelativePath=".\kernel\vsprintf.c">
+			</File>
+		</Filter>
+		<Filter Name="lib">
+			<File RelativePath=".\lib\_exit.c">
+			</File>
+			<File RelativePath=".\lib\close.c">
+			</File>
+			<File RelativePath=".\lib\ctype.c">
+			</File>
+			<File RelativePath=".\lib\dup.c">
+			</File>
+			<File RelativePath=".\lib\errno.c">
+			</File>
+			<File RelativePath=".\lib\execve.c">
+			</File>
+			<File RelativePath=".\lib\malloc.c">
+			</File>
+			<File RelativePath=".\lib\open.c">
+			</File>
+			<File RelativePath=".\lib\setsid.c">
+			</File>
+			<File RelativePath=".\lib\string.c">
+			</File>
+			<File RelativePath=".\lib\wait.c">
+			</File>
+			<File RelativePath=".\lib\write.c">
+			</File>
+		</Filter>
+		<Filter Name="mm">
+			<File RelativePath=".\mm\memory.c">
+			</File>
+			<File RelativePath=".\mm\page.s">
+				<FileConfiguration Name="Debug">
+					<Tool Name="GCCCompilerTool" AdditionalOptions=""/>
+				</FileConfiguration>
+			</File>
+		</Filter>
+		<File RelativePath=".\floppya.img">
+		</File>
+		<File RelativePath=".\floppyb.img">
+		</File>
+		<File RelativePath=".\harddisk.img" NoUpload="-1">
+		</File>
+	</Files>
+</OSLProject>

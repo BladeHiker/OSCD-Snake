@@ -1,0 +1,369 @@
+00000000000i[     ] Bochs x86 Emulator 2.3.7
+00000000000i[     ]   Build from CVS snapshot, on June 3, 2008
+00000000000i[     ] System configuration
+00000000000i[     ]   processors: 1 (cores=1, HT threads=1)
+00000000000i[     ]   A20 line support: yes
+00000000000i[     ]   APIC support: no
+00000000000i[     ] CPU configuration
+00000000000i[     ]   level: 5
+00000000000i[     ]   SMP support: no
+00000000000i[     ]   FPU support: yes
+00000000000i[     ]   MMX support: yes
+00000000000i[     ]   SSE support: no
+00000000000i[     ]   CLFLUSH support: no
+00000000000i[     ]   VME support: yes
+00000000000i[     ]   3dnow! support: no
+00000000000i[     ]   PAE support: no
+00000000000i[     ]   PGE support: no
+00000000000i[     ]   PSE support: yes
+00000000000i[     ]   x86-64 support: no
+00000000000i[     ]   SEP support: no
+00000000000i[     ]   MWAIT support: no
+00000000000i[     ]   XSAVE support: no
+00000000000i[     ]   AES support: no
+00000000000i[     ] Optimization configuration
+00000000000i[     ]   Guest2HostTLB support: no
+00000000000i[     ]   RepeatSpeedups support: no
+00000000000i[     ]   Icache support: no
+00000000000i[     ]   Trace cache support: no
+00000000000i[     ]   Fast function calls: no
+00000000000i[     ] Devices configuration
+00000000000i[     ]   ACPI support: no
+00000000000i[     ]   NE2000 support: no
+00000000000i[     ]   PCI support: no
+00000000000i[     ]   SB16 support: no
+00000000000i[     ]   USB support: no
+00000000000i[     ]   VGA extension support: vbe 
+00000000000i[MEM0 ] allocated memory at 02934020. after alignment, vector=02935000
+00000000000i[MEM0 ] 16.00MB
+00000000000i[MEM0 ] rom at 0xfffe0000/131072 ('BIOS-bochs-latest')
+00000000000i[MEM0 ] rom at 0xc0000/38400 ('VGABIOS-lgpl-latest')
+00000000000i[CMOS ] Using local time for initial clock
+00000000000i[CMOS ] Setting initial clock to: Thu Sep 17 16:56:49 2020 (time0=1600333009)
+00000000000i[DMA  ] channel 4 used by cascade
+00000000000i[DMA  ] channel 2 used by Floppy Drive
+00000000000i[FDD  ] fd0: '..\floppya.img' ro=0, h=2,t=80,spt=18
+00000000000i[FDD  ] fd1: '..\floppyb.img' ro=0, h=2,t=80,spt=18
+00000000000i[MEM0 ] Register memory access handlers: 0x000a0000 - 0x000bffff
+00000000000i[WGUI ] Desktop Window dimensions: 1920 x 1080
+00000000000i[WGUI ] Number of Mouse Buttons = 16
+00000000000i[WGUI ] IME disabled
+00000000000i[VGA  ] interval=300000
+00000000000i[MEM0 ] Register memory access handlers: 0xe0000000 - 0xe07fffff
+00000000000i[VGA  ] VBE Bochs Display Extension Enabled
+00000000000i[     ] init_mem of 'harddrv' plugin device by virtual method
+00000000000i[     ] init_mem of 'keyboard' plugin device by virtual method
+00000000000i[     ] init_mem of 'serial' plugin device by virtual method
+00000000000i[     ] init_mem of 'parallel' plugin device by virtual method
+00000000000i[     ] init_mem of 'extfpuirq' plugin device by virtual method
+00000000000i[     ] init_mem of 'speaker' plugin device by virtual method
+00000000000i[     ] init_dev of 'harddrv' plugin device by virtual method
+00000000000i[HD   ] HD on ata0-0: '..\harddisk.img' 'flat' mode 
+00000000000i[HD   ] translation on ata0-0 set to 'none'
+00000000000i[HD   ] Using boot sequence floppy, none, none
+00000000000i[HD   ] Floppy boot signature check is enabled
+00000000000i[     ] init_dev of 'keyboard' plugin device by virtual method
+00000000000i[KBD  ] will paste characters every 1000 keyboard ticks
+00000000000i[     ] init_dev of 'serial' plugin device by virtual method
+00000000000i[SER  ] com1 at 0x03f8 irq 4
+00000000000i[     ] init_dev of 'parallel' plugin device by virtual method
+00000000000i[PAR  ] parallel port 1 at 0x0378 irq 7
+00000000000i[     ] init_dev of 'extfpuirq' plugin device by virtual method
+00000000000i[     ] init_dev of 'speaker' plugin device by virtual method
+00000000000i[     ] register state of 'harddrv' plugin device by virtual method
+00000000000i[     ] register state of 'keyboard' plugin device by virtual method
+00000000000i[     ] register state of 'serial' plugin device by virtual method
+00000000000i[     ] register state of 'parallel' plugin device by virtual method
+00000000000i[     ] register state of 'extfpuirq' plugin device by virtual method
+00000000000i[     ] register state of 'speaker' plugin device by virtual method
+00000000000i[SYS  ] bx_pc_system_c::Reset(HARDWARE) called
+00000000000i[CPU  ] cpu hardware reset
+00000000000i[     ] reset of 'harddrv' plugin device by virtual method
+00000000000i[     ] reset of 'keyboard' plugin device by virtual method
+00000000000i[     ] reset of 'serial' plugin device by virtual method
+00000000000i[     ] reset of 'parallel' plugin device by virtual method
+00000000000i[     ] reset of 'extfpuirq' plugin device by virtual method
+00000000000i[     ] reset of 'speaker' plugin device by virtual method
+00000003302i[BIOS ] $Revision: 1.209 $ $Date: 2008/06/02 20:08:10 $
+00000317639i[KBD  ] reset-disable command received
+00000437869i[VBIOS] VGABios $Id: vgabios.c,v 1.67 2008/01/27 09:44:12 vruppert Exp $
+00000437940i[VGA  ] VBE known Display Interface b0c0
+00000437972i[VGA  ] VBE known Display Interface b0c4
+00000440897i[VBIOS] VBE Bios $Id: vbe.c,v 1.60 2008/03/02 07:47:21 vruppert Exp $
+00000763898i[BIOS ] Starting rombios32
+00000764725i[BIOS ] ram_size=0x01000000
+00000765339i[BIOS ] Found 1 cpu(s)
+00000880275i[BIOS ] ata0-0: PCHS=410/16/38 translation=none LCHS=410/16/38
+00001200000i[WGUI ] dimension update x=720 y=400 fontheight=16 fontwidth=9 bpp=8
+00004760564i[BIOS ] IDE time out
+00016897647i[BIOS ] Booting from 0000:7c00
+00031326169i[FDD  ] partial read() on floppy image returns 8/512
+00031371124i[FDD  ] read() on floppy image returns 0
+00031416079i[FDD  ] read() on floppy image returns 0
+00031462275i[FDD  ] read() on floppy image returns 0
+00031507230i[FDD  ] read() on floppy image returns 0
+00031552185i[FDD  ] read() on floppy image returns 0
+00031597140i[FDD  ] read() on floppy image returns 0
+00031642097i[FDD  ] read() on floppy image returns 0
+00031687052i[FDD  ] read() on floppy image returns 0
+00031732007i[FDD  ] read() on floppy image returns 0
+00031776962i[FDD  ] read() on floppy image returns 0
+00031821917i[FDD  ] read() on floppy image returns 0
+00031866872i[FDD  ] read() on floppy image returns 0
+00031911827i[FDD  ] read() on floppy image returns 0
+00031956782i[FDD  ] read() on floppy image returns 0
+00032001737i[FDD  ] read() on floppy image returns 0
+00032046692i[FDD  ] read() on floppy image returns 0
+00032091647i[FDD  ] read() on floppy image returns 0
+00032136602i[FDD  ] read() on floppy image returns 0
+00032181557i[FDD  ] read() on floppy image returns 0
+00032226512i[FDD  ] read() on floppy image returns 0
+00032272724i[FDD  ] read() on floppy image returns 0
+00032317679i[FDD  ] read() on floppy image returns 0
+00032362634i[FDD  ] read() on floppy image returns 0
+00032407589i[FDD  ] read() on floppy image returns 0
+00032452544i[FDD  ] read() on floppy image returns 0
+00032497499i[FDD  ] read() on floppy image returns 0
+00032542454i[FDD  ] read() on floppy image returns 0
+00032587409i[FDD  ] read() on floppy image returns 0
+00032632364i[FDD  ] read() on floppy image returns 0
+00032677319i[FDD  ] read() on floppy image returns 0
+00032722274i[FDD  ] read() on floppy image returns 0
+00032767229i[FDD  ] read() on floppy image returns 0
+00032812184i[FDD  ] read() on floppy image returns 0
+00032857139i[FDD  ] read() on floppy image returns 0
+00032902094i[FDD  ] read() on floppy image returns 0
+00032947049i[FDD  ] read() on floppy image returns 0
+00032992004i[FDD  ] read() on floppy image returns 0
+00033036959i[FDD  ] read() on floppy image returns 0
+00033083155i[FDD  ] read() on floppy image returns 0
+00033128110i[FDD  ] read() on floppy image returns 0
+00033173065i[FDD  ] read() on floppy image returns 0
+00033218020i[FDD  ] read() on floppy image returns 0
+00033262975i[FDD  ] read() on floppy image returns 0
+00033307930i[FDD  ] read() on floppy image returns 0
+00033352885i[FDD  ] read() on floppy image returns 0
+00033397840i[FDD  ] read() on floppy image returns 0
+00033442795i[FDD  ] read() on floppy image returns 0
+00033487750i[FDD  ] read() on floppy image returns 0
+00033532705i[FDD  ] read() on floppy image returns 0
+00033577660i[FDD  ] read() on floppy image returns 0
+00033622615i[FDD  ] read() on floppy image returns 0
+00033667570i[FDD  ] read() on floppy image returns 0
+00033712525i[FDD  ] read() on floppy image returns 0
+00033757480i[FDD  ] read() on floppy image returns 0
+00033802435i[FDD  ] read() on floppy image returns 0
+00033847390i[FDD  ] read() on floppy image returns 0
+00033893589i[FDD  ] read() on floppy image returns 0
+00033938544i[FDD  ] read() on floppy image returns 0
+00033983499i[FDD  ] read() on floppy image returns 0
+00034028454i[FDD  ] read() on floppy image returns 0
+00034073409i[FDD  ] read() on floppy image returns 0
+00034118364i[FDD  ] read() on floppy image returns 0
+00034163319i[FDD  ] read() on floppy image returns 0
+00034208274i[FDD  ] read() on floppy image returns 0
+00034253229i[FDD  ] read() on floppy image returns 0
+00034298184i[FDD  ] read() on floppy image returns 0
+00034343139i[FDD  ] read() on floppy image returns 0
+00034388548e[DEV  ] write to port 0x03f2 with len 2 ignored
+00034393583i[BIOS ] int13_harddisk: function 15, unmapped device for ELDL=81
+00034887279i[GDBST] stopped with ac0
+00036766977i[GDBST] stopped with ac0
+00036802219i[GDBST] stopped with ac0
+00036806585i[GDBST] stopped with ac0
+00036838660i[GDBST] stopped with ac0
+00036847971i[GDBST] stopped with ac0
+00036858256i[GDBST] stopped with ac0
+00036867253i[GDBST] stopped with ac0
+00036868443i[GDBST] stopped with ac0
+00036877492i[GDBST] stopped with ac0
+00036886501i[GDBST] stopped with ac0
+00036895581i[GDBST] stopped with ac0
+00036896848i[GDBST] stopped with ac0
+00036906361i[GDBST] stopped with ac0
+00036908184i[GDBST] stopped with ac0
+00036910033i[GDBST] stopped with ac0
+00036918649i[GDBST] stopped with ac0
+00036927948i[GDBST] stopped with ac0
+00036937260i[GDBST] stopped with ac0
+00036938494i[GDBST] stopped with ac0
+00036947509i[GDBST] stopped with ac0
+00036956521i[GDBST] stopped with ac0
+00036965476i[GDBST] stopped with ac0
+00037008723i[GDBST] stopped with ac0
+00037018174i[GDBST] stopped with ac0
+00037047063i[GDBST] stopped with ac0
+00037056119i[GDBST] stopped with ac0
+00037077059i[GDBST] stopped with ac0
+00037096062i[GDBST] stopped with ac0
+00037106860i[GDBST] stopped with ac0
+00037115831i[GDBST] stopped with ac0
+00037126467i[GDBST] stopped with ac0
+00037132640i[GDBST] stopped with ac0
+00037141698i[GDBST] stopped with ac0
+00037165363i[GDBST] stopped with ac0
+00037171576i[GDBST] stopped with ac0
+00037189889i[GDBST] stopped with ac0
+00037199499i[GDBST] stopped with ac0
+00037214573i[GDBST] stopped with ac0
+00037223829i[GDBST] stopped with ac0
+00037232808i[GDBST] stopped with ac0
+00037250921i[GDBST] stopped with ac0
+00037260299i[GDBST] stopped with ac0
+00037271238i[GDBST] stopped with ac0
+00037282000i[GDBST] stopped with ac0
+00037291429i[GDBST] stopped with ac0
+00037300443i[GDBST] stopped with ac0
+00037309486i[GDBST] stopped with ac0
+00037318770i[GDBST] stopped with ac0
+00037329520i[GDBST] stopped with ac0
+00037343055i[GDBST] stopped with ac0
+00037355100i[GDBST] stopped with ac0
+00037364235i[GDBST] stopped with ac0
+00037374643i[GDBST] stopped with ac0
+00037384638i[GDBST] stopped with ac0
+00037403348i[GDBST] stopped with ac0
+00037412366i[GDBST] stopped with ac0
+00037426889i[GDBST] stopped with ac0
+00037480127i[GDBST] stopped with ac0
+00037482348i[GDBST] stopped with ac0
+00037484622i[GDBST] stopped with ac0
+00037486840i[GDBST] stopped with ac0
+00037489899i[GDBST] stopped with ac0
+00037492136i[GDBST] stopped with ac0
+00037496091i[GDBST] stopped with ac0
+00037499136i[GDBST] stopped with ac0
+00037518249i[GDBST] stopped with ac0
+00037528801i[GDBST] stopped with ac0
+00037531372i[GDBST] stopped with ac0
+00037533987i[GDBST] stopped with ac0
+00037539266i[GDBST] stopped with ac0
+00037548791i[GDBST] stopped with ac0
+00037554334i[GDBST] stopped with ac0
+00037573399i[GDBST] stopped with ac0
+00037583144i[GDBST] stopped with ac0
+00037691445i[GDBST] stopped with ac0
+00037695860i[GDBST] stopped with ac0
+00037695990i[GDBST] stopped with ac0
+00037696915i[GDBST] stopped with ac0
+00037697070i[GDBST] stopped with ac0
+00037697156i[GDBST] stopped with ac0
+00037747404i[GDBST] stopped with ac0
+00037756802i[GDBST] stopped with ac0
+00037948671i[GDBST] stopped with ac0
+00037976714i[GDBST] stopped with ac0
+00037980970i[GDBST] stopped with ac0
+00037984920i[GDBST] stopped with ac0
+00037988805i[GDBST] stopped with ac0
+00037989999i[GDBST] stopped with ac0
+00037993999i[GDBST] stopped with ac0
+00037997941i[GDBST] stopped with ac0
+00038001853i[GDBST] stopped with ac0
+00038003124i[GDBST] stopped with ac0
+00038007567i[GDBST] stopped with ac0
+00038009394i[GDBST] stopped with ac0
+00038014712i[GDBST] stopped with ac0
+00038018272i[GDBST] stopped with ac0
+00038022580i[GDBST] stopped with ac0
+00038026836i[GDBST] stopped with ac0
+00038028074i[GDBST] stopped with ac0
+00038031977i[GDBST] stopped with ac0
+00038035933i[GDBST] stopped with ac0
+00038039832i[GDBST] stopped with ac0
+00038078023i[GDBST] stopped with ac0
+00038082306i[GDBST] stopped with ac0
+00038106214i[GDBST] stopped with ac0
+00038110485i[GDBST] stopped with ac0
+00038125793i[GDBST] stopped with ac0
+00038138475i[GDBST] stopped with ac0
+00038144217i[GDBST] stopped with ac0
+00038148132i[GDBST] stopped with ac0
+00038153712i[GDBST] stopped with ac0
+00038159903i[GDBST] stopped with ac0
+00038163905i[GDBST] stopped with ac0
+00038182571i[GDBST] stopped with ac0
+00038188788i[GDBST] stopped with ac0
+00038202034i[GDBST] stopped with ac0
+00038206588i[GDBST] stopped with ac0
+00038217042i[GDBST] stopped with ac0
+00038221186i[GDBST] stopped with ac0
+00038225165i[GDBST] stopped with ac0
+00038238250i[GDBST] stopped with ac0
+00038242572i[GDBST] stopped with ac0
+00038254233i[GDBST] stopped with ac0
+00038273801i[GDBST] stopped with ac0
+00038277758i[GDBST] stopped with ac0
+00038281688i[GDBST] stopped with ac0
+00038285915i[GDBST] stopped with ac0
+00038290200i[GDBST] stopped with ac0
+00038299635i[GDBST] stopped with ac0
+00038305143i[GDBST] stopped with ac0
+00038309400i[GDBST] stopped with ac0
+00038313358i[GDBST] stopped with ac0
+00038315272i[GDBST] stopped with ac0
+00038317237i[GDBST] stopped with ac0
+00038322411i[GDBST] stopped with ac0
+00038326495i[GDBST] stopped with ac0
+00038353884i[GDBST] stopped with ac0
+00038374720i[GDBST] stopped with ac0
+00038444356i[GDBST] stopped with ac0
+00038453363i[GDBST] stopped with ac0
+00038520747i[GDBST] stopped with ac0
+00038529941i[GDBST] stopped with ac0
+00038579793i[GDBST] stopped with ac0
+00038669819i[GDBST] stopped with ac0
+00039003696i[GDBST] stopped with ac0
+00039029011i[GDBST] stopped with ac0
+00039047003i[GDBST] stopped with ac0
+00039071217i[GDBST] stopped with ac0
+00039090207i[GDBST] stopped with ac0
+00039112353i[GDBST] stopped with ac0
+00039136092i[GDBST] stopped with ac0
+00039160839i[GDBST] stopped with ac0
+00039185226i[GDBST] stopped with ac0
+00039241263i[GDBST] stopped with ac0
+00039243507i[GDBST] stopped with ac0
+00039245770i[GDBST] stopped with ac0
+00039248016i[GDBST] stopped with ac0
+00039250384i[GDBST] stopped with ac0
+00039252641i[GDBST] stopped with ac0
+00039256914i[GDBST] stopped with ac0
+00039257044i[GDBST] stopped with ac0
+00039258359i[GDBST] stopped with ac0
+00039258537i[GDBST] stopped with ac0
+00039258623i[GDBST] stopped with ac0
+00039261349i[GDBST] stopped with ac0
+00039263850i[GDBST] stopped with ac0
+00039267661i[GDBST] stopped with ac0
+00039268223i[GDBST] stopped with ac0
+00039268331i[GDBST] stopped with ac0
+00039271001i[GDBST] stopped with ac0
+00039276434i[GDBST] stopped with ac0
+00039278801i[GDBST] stopped with ac0
+00039280440i[GDBST] stopped with ac0
+00039289248i[GDBST] stopped with ac0
+00039292277i[GDBST] stopped with ac0
+00039302615i[GDBST] stopped with ac0
+00039329764i[GDBST] stopped with ac0
+00039371519i[GDBST] stopped with ac0
+00039381242i[GDBST] stopped with ac0
+00039381393i[GDBST] stopped with ac0
+00039383481i[GDBST] stopped with ac0
+00039386625i[GDBST] stopped with ac0
+00039387554i[GDBST] stopped with ac0
+00039387659i[GDBST] stopped with ac0
+00039387740i[GDBST] stopped with ac0
+00039396803i[GDBST] stopped with ac0
+00039397517i[GDBST] stopped with ac0
+00039408567i[GDBST] stopped with ac0
+00039417881i[GDBST] stopped with ac0
+00039427503i[GDBST] stopped with ac0
+00039429014i[GDBST] stopped with ac0
+00039434495i[GDBST] stopped with ac0
+00039530788i[GDBST] stopped with ac0
+00039545910i[GDBST] stopped with ac0
+00039554961i[GDBST] stopped with ac0
+00039567606i[GDBST] stopped with ac0
+00039581758i[GDBST] stopped with ac0
+00051282100i[GDBST] stopped with ac0
+00051472152i[GDBST] stopped with ac0

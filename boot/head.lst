@@ -1,0 +1,446 @@
+GAS LISTING D:/CODE/Linux11_game_demo/Snake0/boot/head.s 			page 1
+
+
+   1              	/*
+   2              	 *  linux/boot/head.s
+   3              	 *
+   4              	 *  (C) 1991  Linus Torvalds
+   5              	 */
+   6              	
+   7              	/*
+   8              	 *  head.s contains the 32-bit startup code.
+   9              	 *
+  10              	 * NOTE!!! Startup happens at absolute address 0x00000000, which is also where
+  11              	 * the page directory will exist. The startup code will be overwritten by
+  12              	 * the page directory.
+  13              	 */
+  14              	/*
+  15              	 * head.s º¬ÓĞ32 Î»Æô¶¯´úÂë¡£
+  16              	 * ×¢Òâ!!! 32 Î»Æô¶¯´úÂëÊÇ´Ó¾ø¶ÔµØÖ·0x00000000 ¿ªÊ¼µÄ£¬ÕâÀïÒ²Í¬ÑùÊÇÒ³Ä¿Â¼½«´æÔÚ
+  17              	 * µÄµØ·½£¬Òò´ËÕâÀïµÄÆô¶¯´úÂë½«±»Ò³Ä¿Â¼¸²¸Çµô¡£
+  18              	 */
+  19              	.text
+  20              	.globl _idt,_gdt,_pg_dir,_tmp_floppy_area
+  21              	_pg_dir:		# Ò³Ä¿Â¼½«»á´æ·ÅÔÚÕâÀï
+  22              	.globl startup_11
+  23              	
+  24              	startup_11:   				# ¶ÔÓÚGNU »ã±àÀ´Ëµ£¬Ã¿¸öÖ±½ÓÊıÒªÒÔ'$'¿ªÊ¼£¬·ñÔòÊÇ±íÊ¾µØÖ·¡£
+  25 0000 B8100000 		movl $0x10,%eax			#  ÔÙ´Î×¢Òâ!!! ÕâÀïÒÑ¾­´¦ÓÚ32 Î»ÔËĞĞÄ£Ê½£¬Òò´ËÕâÀïµÄ$0x10 ²¢²»ÊÇ°ÑµØÖ·0x10 ×°Èë¸
+  25      00
+  26              	   							#  ¶Î¼Ä´æÆ÷£¬ËüÏÖÔÚÆäÊµÊÇÈ«¾Ö¶ÎÃèÊö·û±íÖĞµÄÆ«ÒÆÖµ£¬»òÕß¸üÕıÈ·µØËµÊÇÒ»¸öÃèÊö·û±íÏî
+  27              	    						#  µÄÑ¡Ôñ·û¡£ÓĞ¹ØÑ¡Ôñ·ûµÄËµÃ÷Çë²Î¼ûsetup.s ÖĞµÄËµÃ÷¡£ÕâÀï$0x10 µÄº¬ÒåÊÇÇëÇó
+  28              	    						#  ÌØÈ¨¼¶0(Î»0-1=0)¡¢Ñ¡ÔñÈ«¾ÖÃèÊö·û±í(Î»2=0)¡¢Ñ¡Ôñ±íÖĞµÚ2 Ïî(Î»3-15=2)¡£ÏÂÃæ´úÂëµÄ
+  29              	    						#  º¬ÒåÊÇ£ºÖÃds,es,fs,gs ÖĞµÄÑ¡Ôñ·ûÎªsetup.s ÖĞ¹¹ÔìµÄÊı¾İ¶Î£¨È«¾Ö¶ÎÃèÊö·û±íµÄµÚ2 Ïî£©
+  30              	    						#  =0x10£¬²¢½«¶ÑÕ»·ÅÖÃÔÚstack_start Ö¸ÏòµÄ user_stack Êı×éÄÚ£¬È»ºóÊ¹ÓÃĞÂµÄÖĞ¶ÏÃèÊö
+  31              	    						#  ·û±íºÍÈ«¾Ö¶ÎÃèÊö±í.ĞÂµÄÈ«¾Ö¶ÎÃèÊö±íÖĞ³õÊ¼ÄÚÈİÓësetup.s ÖĞµÄ»ù±¾Ò»Ñù¡£½ö½«¶ÎÏŞ³¤
+  32              	    						#  ´Ó 8MB ĞŞ¸ÄÎª 16MB¡£
+  33 0005 8ED8     		mov %ax,%ds
+  34 0007 8EC0     		mov %ax,%es
+  35 0009 8EE0     		mov %ax,%fs
+  36 000b 8EE8     		mov %ax,%gs
+  37 000d 0FB22500 		lss _stack_start,%esp		# ±íÊ¾_stack_start->ss:esp£¬ÉèÖÃÏµÍ³¶ÑÕ»¡£stack_start ¶¨ÒåÔÚkernel/sched.c
+  37      000000
+  38 0014 E8580000 		call _setup_idt				# µ÷ÓÃÉèÖÃÖĞ¶ÏÃèÊö·û±í×Ó³ÌĞò¡£
+  38      00
+  39 0019 E8830000 		call _setup_gdt				# µ÷ÓÃÉèÖÃÈ«¾ÖÃèÊö·û±í×Ó³ÌĞò¡£
+  39      00
+  40 001e B8100000 		movl $0x10,%eax		# reload all the segment registers
+  40      00
+  41 0023 8ED8     		mov %ax,%ds			# after changing gdt. CS was already
+  42 0025 8EC0     		mov %ax,%es			# reloaded in 'setup_gdt'
+  43 0027 8EE0     		mov %ax,%fs			# ÒòÎªĞŞ¸ÄÁËgdt£¬ËùÒÔĞèÒªÖØĞÂ×°ÔØËùÓĞµÄ¶Î¼Ä´æÆ÷¡£
+  44 0029 8EE8     		mov %ax,%gs			# CS ´úÂë¶Î¼Ä´æÆ÷ÒÑ¾­ÔÚsetup_gdt ÖĞÖØĞÂ¼ÓÔØ¹ıÁË¡£
+  45 002b 0FB22500 		lss _stack_start,%esp
+  45      000000
+  46              		
+  47              		# ÏÂÃæÓÃÓÚ²âÊÔA20 µØÖ·ÏßÊÇ·ñÒÑ¾­¿ªÆô¡£²ÉÓÃµÄ·½·¨ÊÇÏòÄÚ´æµØÖ·0x000000 ´¦Ğ´ÈëÈÎÒâ
+  48              		# Ò»¸öÊıÖµ£¬È»ºó¿´ÄÚ´æµØÖ·0x100000(1M)´¦ÊÇ·ñÒ²ÊÇÕâ¸öÊıÖµ¡£Èç¹ûÒ»Ö±ÏàÍ¬µÄ»°£¬¾ÍÒ»Ö±
+  49              		# ±È½ÏÏÂÈ¥£¬Ò²¼´ËÀÑ­»·¡¢ËÀ»ú¡£±íÊ¾µØÖ·A20 ÏßÃ»ÓĞÑ¡Í¨£¬½á¹ûÄÚºË¾Í²»ÄÜÊ¹ÓÃ1M ÒÔÉÏÄÚ´æ¡£
+  50 0032 31C0     		xorl %eax,%eax
+  51 0034 40       	1:	incl %eax			# check that A20 really IS enabled
+GAS LISTING D:/CODE/Linux11_game_demo/Snake0/boot/head.s 			page 2
+
+
+  52 0035 A3000000 		movl %eax,0x000000	# loop forever if it isn't
+  52      00
+  53 003a 39050000 		cmpl %eax,0x100000
+  53      1000
+  54 0040 74F2     		je 1b				# '1b'±íÊ¾Ïòºó(backward)Ìø×ªµ½±êºÅ1 È¥
+  55              							# ÈôÊÇ'5f'Ôò±íÊ¾ÏòÇ°(forward)Ìø×ªµ½±êºÅ5 È¥	
+  56              	
+  57              	/*
+  58              	 * NOTE! 486 should set bit 16, to check for write-protect in supervisor
+  59              	 * mode. Then it would be unnecessary with the "verify_area()"-calls.
+  60              	 * 486 users probably want to set the NE (#5) bit also, so as to use
+  61              	 * int 16 for math errors.
+  62              	 */
+  63              	/*
+  64              	 * ×¢Òâ! ÔÚÏÂÃæÕâ¶Î³ÌĞòÖĞ£¬486 Ó¦¸Ã½«Î»16 ÖÃÎ»£¬ÒÔ¼ì²éÔÚ³¬¼¶ÓÃ»§Ä£Ê½ÏÂµÄĞ´±£»¤,
+  65              	 * ´Ëºó"verify_area()"µ÷ÓÃÖĞ¾Í²»ĞèÒªÁË¡£486 µÄÓÃ»§Í¨³£Ò²»áÏë½«NE(#5)ÖÃÎ»£¬ÒÔ±ã
+  66              	 * ¶ÔÊıÑ§Ğ­´¦ÀíÆ÷µÄ³ö´íÊ¹ÓÃint 16¡£
+  67              	 */
+  68              	 # ÏÂÃæÕâ¶Î³ÌĞò£¨43-65£©ÓÃÓÚ¼ì²éÊıÑ§Ğ­´¦ÀíÆ÷Ğ¾Æ¬ÊÇ·ñ´æÔÚ¡£·½·¨ÊÇĞŞ¸Ä¿ØÖÆ¼Ä´æÆ÷CR0£¬ÔÚ
+  69              	 # ¼ÙÉè´æÔÚĞ­´¦ÀíÆ÷µÄÇé¿öÏÂÖ´ĞĞÒ»¸öĞ­´¦ÀíÆ÷Ö¸Áî£¬Èç¹û³ö´íµÄ»°ÔòËµÃ÷Ğ­´¦ÀíÆ÷Ğ¾Æ¬²»´æÔÚ£¬
+  70              	 # ĞèÒªÉèÖÃCR0 ÖĞµÄĞ­´¦ÀíÆ÷·ÂÕæÎ»EM£¨Î»2£©£¬²¢¸´Î»Ğ­´¦ÀíÆ÷´æÔÚ±êÖ¾MP£¨Î»1£©¡£
+  71 0042 0F20C0   		movl %cr0,%eax			# check math chip
+  72 0045 25110000 		andl $0x80000011,%eax	# Save PG,PE,ET
+  72      80
+  73              		/* "orl $0x10020,%eax" here for 486 might be good */
+  74 004a 83C802   		orl $2,%eax				# set MP
+  75 004d 0F22C0   		movl %eax,%cr0
+  76 0050 E8050000 		call check_x87
+  76      00
+  77 0055 E9A65300 		jmp after_page_tables
+  77      00
+  78              	
+  79              	 /*
+  80              	  * We depend on ET to be correct. This checks for 287/387.
+  81              	  */
+  82              	 /*
+  83              	  * ÎÒÃÇÒÀÀµÓÚET ±êÖ¾µÄÕıÈ·ĞÔÀ´¼ì²â287/387 ´æÔÚÓë·ñ¡£
+  84              	  */
+  85              	check_x87:
+  86 005a DBE3     		fninit
+  87 005c 9BDFE0   		fstsw %ax
+  88 005f 3C00     		cmpb $0,%al
+  89 0061 740B     		je 1f				/* no coprocessor: have to set bits */
+  90 0063 0F20C0   		movl %cr0,%eax		 # Èç¹û´æÔÚµÄÔòÏòÇ°Ìø×ªµ½±êºÅ1 ´¦£¬·ñÔò¸ÄĞ´cr0¡£
+  91 0066 83F006   		xorl $6,%eax		/* reset MP, set EM */
+  92 0069 0F22C0   		movl %eax,%cr0
+  93 006c C3       		ret
+  94 006d 90       	.align 2				 # ÕâÀï".align 2"µÄº¬ÒåÊÇÖ¸´æ´¢±ß½ç¶ÔÆëµ÷Õû¡£"2"±íÊ¾µ÷Õûµ½µØÖ·×îºó2 Î»ÎªÁã£¬
+  95              							 # ¼´°´4 ×Ö½Ú·½Ê½¶ÔÆëÄÚ´æµØÖ·¡£
+  96 006e DBE4     	1:	.byte 0xDB,0xE4		/* fsetpm for 287, ignored by 387 */
+  97 0070 C3       		ret
+  98              	
+  99              	/*
+ 100              	 *  setup_idt
+ 101              	 *
+ 102              	 *  sets up a idt with 256 entries pointing to
+ 103              	 *  ignore_int, interrupt gates. It then loads
+GAS LISTING D:/CODE/Linux11_game_demo/Snake0/boot/head.s 			page 3
+
+
+ 104              	 *  idt. Everything that wants to install itself
+ 105              	 *  in the idt-table may do so themselves. Interrupts
+ 106              	 *  are enabled elsewhere, when we can be relatively
+ 107              	 *  sure everything is ok. This routine will be over-
+ 108              	 *  written by the page tables.
+ 109              	 */
+ 110              	/*
+ 111              	 * ÏÂÃæÕâ¶ÎÊÇÉèÖÃÖĞ¶ÏÃèÊö·û±í×Ó³ÌĞò setup_idt
+ 112              	 *
+ 113              	 * ½«ÖĞ¶ÏÃèÊö·û±íidt ÉèÖÃ³É¾ßÓĞ256 ¸öÏî£¬²¢¶¼Ö¸Ïòignore_int ÖĞ¶ÏÃÅ¡£È»ºó¼ÓÔØÖĞ¶Ï
+ 114              	 * ÃèÊö·û±í¼Ä´æÆ÷(ÓÃlidt Ö¸Áî)¡£ÕæÕıÊµÓÃµÄÖĞ¶ÏÃÅÒÔºóÔÙ°²×°¡£µ±ÎÒÃÇÔÚÆäËüµØ·½ÈÏÎªÒ»ÇĞ
+ 115              	 * ¶¼Õı³£Ê±ÔÙ¿ªÆôÖĞ¶Ï¡£¸Ã×Ó³ÌĞò½«»á±»Ò³±í¸²¸Çµô¡£
+ 116              	 */
+ 117              	  # ÖĞ¶ÏÃèÊö·û±íÖĞµÄÏîËäÈ»Ò²ÊÇ8 ×Ö½Ú×é³É£¬µ«Æä¸ñÊ½ÓëÈ«¾Ö±íÖĞµÄ²»Í¬£¬±»³ÆÎªÃÅÃèÊö·û
+ 118              	  # (Gate Descriptor)¡£ËüµÄ0-1,6-7 ×Ö½ÚÊÇÆ«ÒÆÁ¿£¬2-3 ×Ö½ÚÊÇÑ¡Ôñ·û£¬4-5 ×Ö½ÚÊÇÒ»Ğ©±êÖ¾¡£
+ 119              	_setup_idt:
+ 120 0071 8D152854 		lea ignore_int,%edx		 # ½«ignore_int µÄÓĞĞ§µØÖ·£¨Æ«ÒÆÖµ£©Öµ->edx ¼Ä´æÆ÷
+ 120      0000
+ 121 0077 B8000008 		movl $0x00080000,%eax	 # ½«Ñ¡Ôñ·û0x0008 ÖÃÈëeax µÄ¸ß16 Î»ÖĞ¡£
+ 121      00
+ 122 007c 6689D0   		movw %dx,%ax			/* selector = 0x0008 = cs */
+ 123              								 # Æ«ÒÆÖµµÄµÍ16 Î»ÖÃÈëeax µÄµÍ16 Î»ÖĞ¡£´ËÊ±eax º¬ÓĞ
+ 124              								 #ÃÅÃèÊö·ûµÍ4 ×Ö½ÚµÄÖµ¡£
+ 125 007f 66BA008E 		movw $0x8E00,%dx		/* interrupt gate - dpl=0, present */
+ 126              	
+ 127 0083 8D3DB854 		lea _idt,%edi			 # _idt ÊÇÖĞ¶ÏÃèÊö·û±íµÄµØÖ·¡£
+ 127      0000
+ 128 0089 B9000100 		mov $256,%ecx
+ 128      00
+ 129              	rp_sidt:
+ 130 008e 8907     		movl %eax,(%edi)		 # ½«ÑÆÖĞ¶ÏÃÅÃèÊö·û´æÈë±íÖĞ¡£
+ 131 0090 895704   		movl %edx,4(%edi)
+ 132 0093 83C708   		addl $8,%edi			 # edi Ö¸Ïò±íÖĞÏÂÒ»Ïî¡£
+ 133 0096 49       		dec %ecx
+ 134 0097 75F5     		jne rp_sidt
+ 135 0099 0F011DA8 		lidt idt_descr			 # ¼ÓÔØÖĞ¶ÏÃèÊö·û±í¼Ä´æÆ÷Öµ¡£
+ 135      540000
+ 136 00a0 C3       		ret
+ 137              	
+ 138              	/*
+ 139              	 *  setup_gdt
+ 140              	 *
+ 141              	 *  This routines sets up a new gdt and loads it.
+ 142              	 *  Only two entries are currently built, the same
+ 143              	 *  ones that were built in init.s. The routine
+ 144              	 *  is VERY complicated at two whole lines, so this
+ 145              	 *  rather long comment is certainly needed :-).
+ 146              	 *  This routine will beoverwritten by the page tables.
+ 147              	 */
+ 148              	/*
+ 149              	 * ÉèÖÃÈ«¾ÖÃèÊö·û±íÏî setup_gdt
+ 150              	 * Õâ¸ö×Ó³ÌĞòÉèÖÃÒ»¸öĞÂµÄÈ«¾ÖÃèÊö·û±ígdt£¬²¢¼ÓÔØ¡£´ËÊ±½ö´´½¨ÁËÁ½¸ö±íÏî£¬ÓëÇ°
+ 151              	 * ÃæµÄÒ»Ñù¡£¸Ã×Ó³ÌĞòÖ»ÓĞÁ½ĞĞ£¬¡°·Ç³£µÄ¡±¸´ÔÓ£¬ËùÒÔµ±È»ĞèÒªÕâÃ´³¤µÄ×¢ÊÍÁË¡£
+ 152              	 */
+ 153              	_setup_gdt:
+ 154 00a1 0F0115B0 		lgdt gdt_descr			# ¼ÓÔØÈ«¾ÖÃèÊö·û±í¼Ä´æÆ÷(ÄÚÈİÒÑÉèÖÃºÃ)¡£
+ 154      540000
+GAS LISTING D:/CODE/Linux11_game_demo/Snake0/boot/head.s 			page 4
+
+
+ 155 00a8 C3       		ret
+ 156              	
+ 157              		/*
+ 158              		 * I put the kernel page tables right after the page directory,
+ 159              		 * using 4 of them to span 16 Mb of physical memory. People with
+ 160              		 * more than 16MB will have to expand this.
+ 161              		 */
+ 162              		/* Linus ½«ÄÚºËµÄÄÚ´æÒ³±íÖ±½Ó·ÅÔÚÒ³Ä¿Â¼Ö®ºó£¬Ê¹ÓÃÁË4 ¸ö±íÀ´Ñ°Ö·16 Mb µÄÎïÀíÄÚ´æ¡£
+ 163              		 * Èç¹ûÄãÓĞ¶àÓÚ16 Mb µÄÄÚ´æ£¬¾ÍĞèÒªÔÚÕâÀï½øĞĞÀ©³äĞŞ¸Ä¡£
+ 164              		 */
+ 165              	 	 # Ã¿¸öÒ³±í³¤Îª4 Kb ×Ö½Ú£¬¶øÃ¿¸öÒ³±íÏîĞèÒª4 ¸ö×Ö½Ú£¬Òò´ËÒ»¸öÒ³±í¹²¿ÉÒÔ´æ·Å1000 ¸ö±íÏî£¬
+ 166              	 	 # Èç¹ûÒ»¸ö±íÏîÑ°Ö·4 Kb µÄµØÖ·¿Õ¼ä£¬ÔòÒ»¸öÒ³±í¾Í¿ÉÒÔÑ°Ö·4 Mb µÄÎïÀíÄÚ´æ¡£
+ 167              		 # Ò³±íÏîµÄ¸ñÊ½Îª£ºÏîµÄÇ°0-11 Î»´æ·ÅÒ»Ğ©±êÖ¾£¬ÈçÊÇ·ñÔÚÄÚ´æÖĞ(P Î»0)¡¢¶ÁĞ´Ğí¿É(R/W Î»1)¡¢
+ 168              	 	 # ÆÕÍ¨ÓÃ»§»¹ÊÇ³¬¼¶ÓÃ»§Ê¹ÓÃ(U/S Î»2)¡¢ÊÇ·ñĞŞ¸Ä¹ı(ÊÇ·ñÔàÁË)(D Î»6)µÈ£»±íÏîµÄÎ»12-31 ÊÇ
+ 169              	 	 # Ò³¿òµØÖ·£¬ÓÃÓÚÖ¸³öÒ»Ò³ÄÚ´æµÄÎïÀíÆğÊ¼µØÖ·¡£
+ 170              	 
+ 171 00a9 00000000 	.org 0x1000		# ´ÓÆ«ÒÆ0x1000 ´¦¿ªÊ¼ÊÇµÚ1 ¸öÒ³±í£¨Æ«ÒÆ0 ¿ªÊ¼´¦½«´æ·ÅÒ³±íÄ¿Â¼£©¡£
+ 171      00000000 
+ 171      00000000 
+ 171      00000000 
+ 171      00000000 
+ 172              	pg0:
+ 173              	
+ 174 1000 00000000 	.org 0x2000
+ 174      00000000 
+ 174      00000000 
+ 174      00000000 
+ 174      00000000 
+ 175              	pg1:
+ 176              	
+ 177 2000 00000000 	.org 0x3000
+ 177      00000000 
+ 177      00000000 
+ 177      00000000 
+ 177      00000000 
+ 178              	pg2:
+ 179              	
+ 180 3000 00000000 	.org 0x4000
+ 180      00000000 
+ 180      00000000 
+ 180      00000000 
+ 180      00000000 
+ 181              	pg3:
+ 182              	
+ 183 4000 00000000 	.org 0x5000		# ¶¨ÒåÏÂÃæµÄÄÚ´æÊı¾İ¿é´ÓÆ«ÒÆ0x5000 ´¦¿ªÊ¼¡£
+ 183      00000000 
+ 183      00000000 
+ 183      00000000 
+ 183      00000000 
+ 184              	/*
+ 185              	 * tmp_floppy_area is used by the floppy-driver when DMA cannot
+ 186              	 * reach to a buffer-block. It needs to be aligned, so that it isn't
+ 187              	 * on a 64kB border.
+ 188              	 */
+ 189              	/* µ±DMA£¨Ö±½Ó´æ´¢Æ÷·ÃÎÊ£©²»ÄÜ·ÃÎÊ»º³å¿éÊ±£¬ÏÂÃæµÄtmp_floppy_area ÄÚ´æ¿é
+ 190              	 * ¾Í¿É¹©ÈíÅÌÇı¶¯³ÌĞòÊ¹ÓÃ¡£ÆäµØÖ·ĞèÒª¶ÔÆëµ÷Õû£¬ÕâÑù¾Í²»»á¿çÔ½64kB ±ß½ç¡£
+ 191              	 */
+GAS LISTING D:/CODE/Linux11_game_demo/Snake0/boot/head.s 			page 5
+
+
+ 192              	_tmp_floppy_area:
+ 193 5000 00000000 		.fill 1024,1,0		# ¹²±£Áô1024 Ïî£¬Ã¿Ïî1 ×Ö½Ú£¬Ìî³äÊıÖµ0¡£
+ 193      00000000 
+ 193      00000000 
+ 193      00000000 
+ 193      00000000 
+ 194              	
+ 195              	# ÏÂÃæÕâ¼¸¸öÈëÕ»²Ù×÷(pushl)ÓÃÓÚÎªµ÷ÓÃ/init/main.c ³ÌĞòºÍ·µ»Ø×÷×¼±¸¡£
+ 196              	# Ç°Ãæ3 ¸öÈëÕ»Ö¸Áî²»ÖªµÀ×÷Ê²Ã´ÓÃµÄ£¬Ò²ĞíÊÇLinus ÓÃÓÚÔÚµ÷ÊÔÊ±ÄÜ¿´Çå»úÆ÷ÂëÓÃµÄ¡£
+ 197              	after_page_tables:
+ 198 5400 6A00     		pushl $0			# These are the parameters to main :-)
+ 199 5402 6A00     		pushl $0
+ 200 5404 6A00     		pushl $0
+ 201 5406 68125400 		pushl $L6			# return address for main, if it decides to.
+ 201      00
+ 202 540b 68000000 		pushl $_start
+ 202      00
+ 203 5410 EB3C     		jmp setup_paging
+ 204              	L6:
+ 205 5412 EBFE     		jmp L6				# main should never return here, but
+ 206              							# just in case, we know what happens.
+ 207              	
+ 208              	/* This is the default interrupt "handler" :-) */
+ 209              	/* ÏÂÃæÊÇÄ¬ÈÏµÄÖĞ¶Ï¡°ÏòÁ¿¾ä±ú¡±*/
+ 210              	int_msg:
+ 211 5414 556E6B6E 		.asciz "Unknown interrupt\n\r"		# ¶¨Òå×Ö·û´®¡°Î´ÖªÖĞ¶Ï(»Ø³µ»»ĞĞ)¡±¡£
+ 211      6F776E20 
+ 211      696E7465 
+ 211      72727570 
+ 211      740A0D00 
+ 212              	.align 2
+ 213              	ignore_int:
+ 214 5428 50       		pushl %eax
+ 215 5429 51       		pushl %ecx
+ 216 542a 52       		pushl %edx
+ 217              		
+ 218              		# ÕâÀïÇë×¢Òâ£¡£¡ds,es,fs,gs µÈËäÈ»ÊÇ16 Î»µÄ¼Ä´æÆ÷£¬µ«ÈëÕ»ºó
+ 219              		# ÈÔÈ»»áÒÔ32 Î»µÄĞÎÊ½ÈëÕ»£¬Ò²¼´ĞèÒªÕ¼ÓÃ4 ¸ö×Ö½ÚµÄ¶ÑÕ»¿Õ¼ä¡£
+ 220 542b 1E       		push %ds
+ 221 542c 06       		push %es
+ 222 542d 0FA0     		push %fs
+ 223 542f B8100000 		movl $0x10,%eax		# ÖÃ¶ÎÑ¡Ôñ·û£¨Ê¹ds,es,fs Ö¸Ïògdt ±íÖĞµÄÊı¾İ¶Î£©¡£
+ 223      00
+ 224 5434 8ED8     		mov %ax,%ds
+ 225 5436 8EC0     		mov %ax,%es
+ 226 5438 8EE0     		mov %ax,%fs
+ 227 543a 68145400 		pushl $int_msg		# °Ñµ÷ÓÃprintk º¯ÊıµÄ²ÎÊıÖ¸Õë£¨µØÖ·£©ÈëÕ»¡£
+ 227      00
+ 228              							# ×¢Òâ£¡Èô·ûºÅint_msgÇ°²»¼Ó¡®$¡¯£¬Ôò±íÊ¾°Ñint_msg·ûºÅ´¦µÄ³¤×Ö'Unkn'ÈëÕ»
+ 229 543f E8000000 		call _printk		# '_printk'ÊÇprintk ±àÒëºóÄ£¿éÖĞµÄÄÚ²¿±íÊ¾·¨¡£
+ 229      00
+ 230 5444 58       		popl %eax
+ 231 5445 0FA1     		pop %fs
+ 232 5447 07       		pop %es
+ 233 5448 1F       		pop %ds
+ 234 5449 5A       		popl %edx
+ 235 544a 59       		popl %ecx
+GAS LISTING D:/CODE/Linux11_game_demo/Snake0/boot/head.s 			page 6
+
+
+ 236 544b 58       		popl %eax
+ 237 544c CF       		iret				# ÖĞ¶Ï·µ»Ø£¨°ÑÖĞ¶Ïµ÷ÓÃÊ±Ñ¹ÈëÕ»µÄCPU ±êÖ¾¼Ä´æÆ÷£¨32 Î»£©ÖµÒ²µ¯³ö£©¡£
+ 238              	
+ 239              	
+ 240              	/*
+ 241              	 * Setup_paging
+ 242              	 *
+ 243              	 * This routine sets up paging by setting the page bit
+ 244              	 * in cr0. The page tables are set up, identity-mapping
+ 245              	 * the first 16MB. The pager assumes that no illegal
+ 246              	 * addresses are produced (ie >4Mb on a 4Mb machine).
+ 247              	 *
+ 248              	 * NOTE! Although all physical memory should be identity
+ 249              	 * mapped by this routine, only the kernel page functions
+ 250              	 * use the >1Mb addresses directly. All "normal" functions
+ 251              	 * use just the lower 1Mb, or the local data space, which
+ 252              	 * will be mapped to some other place - mm keeps track of
+ 253              	 * that.
+ 254              	 *
+ 255              	 * For those with more memory than 16 Mb - tough luck. I've
+ 256              	 * not got it, why should you :-) The source is here. Change
+ 257              	 * it. (Seriously - it shouldn't be too difficult. Mostly
+ 258              	 * change some constants etc. I left it at 16Mb, as my machine
+ 259              	 * even cannot be extended past that (ok, but it was cheap :-)
+ 260              	 * I've tried to show which constants to change by having
+ 261              	 * some kind of marker at them (search for "16Mb"), but I
+ 262              	 * won't guarantee that's all :-( )
+ 263              	 */
+ 264              	/*
+ 265              	 * Õâ¸ö×Ó³ÌĞòÍ¨¹ıÉèÖÃ¿ØÖÆ¼Ä´æÆ÷cr0 µÄ±êÖ¾£¨PG Î»31£©À´Æô¶¯¶ÔÄÚ´æµÄ·ÖÒ³´¦Àí¹¦ÄÜ£¬
+ 266              	 * ²¢ÉèÖÃ¸÷¸öÒ³±íÏîµÄÄÚÈİ£¬ÒÔºãµÈÓ³ÉäÇ°16 MB µÄÎïÀíÄÚ´æ¡£·ÖÒ³Æ÷¼Ù¶¨²»»á²úÉú·Ç·¨µÄ
+ 267              	 * µØÖ·Ó³Éä£¨Ò²¼´ÔÚÖ»ÓĞ4Mb µÄ»úÆ÷ÉÏÉèÖÃ³ö´óÓÚ4Mb µÄÄÚ´æµØÖ·£©¡£
+ 268              	 *
+ 269              	 * ×¢Òâ£¡¾¡¹ÜËùÓĞµÄÎïÀíµØÖ·¶¼Ó¦¸ÃÓÉÕâ¸ö×Ó³ÌĞò½øĞĞºãµÈÓ³Éä£¬µ«Ö»ÓĞÄÚºËÒ³Ãæ¹ÜÀíº¯ÊıÄÜ
+ 270              	 * Ö±½ÓÊ¹ÓÃ>1Mb µÄµØÖ·¡£ËùÓĞ¡°Ò»°ã¡±º¯Êı½öÊ¹ÓÃµÍÓÚ1Mb µÄµØÖ·¿Õ¼ä£¬»òÕßÊÇÊ¹ÓÃ¾Ö²¿Êı¾İ
+ 271              	 * ¿Õ¼ä£¬µØÖ·¿Õ¼ä½«±»Ó³Éäµ½ÆäËüÒ»Ğ©µØ·½È¥ -- mm(ÄÚ´æ¹ÜÀí³ÌĞò)»á¹ÜÀíÕâĞ©ÊÂµÄ¡£
+ 272              	 *
+ 273              	 * ¶ÔÓÚÄÇĞ©ÓĞ¶àÓÚ16Mb ÄÚ´æµÄ¼Ò»ï - Ì«ĞÒÔËÁË£¬ÎÒ»¹Ã»ÓĞ£¬ÎªÊ²Ã´Äã»áÓĞ?¡£´úÂë¾ÍÔÚÕâÀï£¬
+ 274              	 * ¶ÔËü½øĞĞĞŞ¸Ä°É¡££¨Êµ¼ÊÉÏ£¬Õâ²¢²»Ì«À§ÄÑµÄ¡£Í¨³£Ö»ĞèĞŞ¸ÄÒ»Ğ©³£ÊıµÈ¡£ÎÒ°ÑËüÉèÖÃÎª
+ 275              	 * 16Mb£¬ÒòÎªÎÒµÄ»úÆ÷ÔÙÔõÃ´À©³äÉõÖÁ²»ÄÜ³¬¹ıÕâ¸ö½çÏŞ£¨µ±È»£¬ÎÒµÄ»úÆ÷ºÜ±ãÒËµÄ?£©¡£
+ 276              	 * ÎÒÒÑ¾­Í¨¹ıÉèÖÃÄ³Àà±êÖ¾À´¸ø³öĞèÒª¸Ä¶¯µÄµØ·½£¨ËÑË÷¡°16Mb¡±£©£¬µ«ÎÒ²»ÄÜ±£Ö¤×÷ÕâĞ©
+ 277              	 * ¸Ä¶¯¾ÍĞĞÁË£©¡£
+ 278              	 */
+ 279 544d 90       	.align 2
+ 280              	setup_paging:					 # Ê×ÏÈ¶Ô5 Ò³ÄÚ´æ£¨1 Ò³Ä¿Â¼ + 4 Ò³Ò³±í£©ÇåÁã
+ 281 544e B9001400 		movl $1024*5,%ecx			/* 5 pages - pg_dir+4 page tables */
+ 281      00
+ 282 5453 31C0     		xorl %eax,%eax	
+ 283 5455 31FF     		xorl %edi,%edi				/* pg_dir is at 0x000 */
+ 284              									 # Ò³Ä¿Â¼´Ó0x000 µØÖ·¿ªÊ¼¡£
+ 285 5457 FCF3AB   		cld;rep;stosl
+ 286              		# ÏÂÃæ4 ¾äÉèÖÃÒ³Ä¿Â¼ÖĞµÄÏî£¬ÎÒÃÇ¹²ÓĞ4 ¸öÒ³±íËùÒÔÖ»ĞèÉèÖÃ4 Ïî¡£
+ 287              		# Ò³Ä¿Â¼ÏîµÄ½á¹¹ÓëÒ³±íÖĞÏîµÄ½á¹¹Ò»Ñù£¬4 ¸ö×Ö½ÚÎª1 Ïî¡£²Î¼ûÉÏÃæµÄËµÃ÷¡£
+ 288              		# "$pg0+7"±íÊ¾£º0x00001007£¬ÊÇÒ³Ä¿Â¼±íÖĞµÄµÚ1 Ïî¡£
+ 289              		# ÔòµÚ1 ¸öÒ³±íËùÔÚµÄµØÖ· = 0x00001007 & 0xfffff000 = 0x1000£»
+ 290              		# µÚ1 ¸öÒ³±íµÄÊôĞÔ±êÖ¾ = 0x00001007 & 0x00000fff = 0x07£¬±íÊ¾¸ÃÒ³´æÔÚ¡¢ÓÃ»§¿É¶ÁĞ´¡£
+ 291 545a C7050000 		movl $pg0+7,_pg_dir			/* set present bit/user r/w */
+GAS LISTING D:/CODE/Linux11_game_demo/Snake0/boot/head.s 			page 7
+
+
+ 291      00000710 
+ 291      0000
+ 292 5464 C7050400 		movl $pg1+7,_pg_dir+4		/*  --------- " " --------- */
+ 292      00000720 
+ 292      0000
+ 293 546e C7050800 		movl $pg2+7,_pg_dir+8		/*  --------- " " --------- */
+ 293      00000730 
+ 293      0000
+ 294 5478 C7050C00 		movl $pg3+7,_pg_dir+12		/*  --------- " " --------- */
+ 294      00000740 
+ 294      0000
+ 295              		
+ 296              		# ÏÂÃæ6 ĞĞÌîĞ´4 ¸öÒ³±íÖĞËùÓĞÏîµÄÄÚÈİ£¬¹²ÓĞ£º4(Ò³±í)*1024(Ïî/Ò³±í)=4096 Ïî(0 - 0xfff)£¬
+ 297              		# Ò²¼´ÄÜÓ³ÉäÎïÀíÄÚ´æ 4096*4Kb = 16Mb¡£
+ 298              		# Ã¿ÏîµÄÄÚÈİÊÇ£ºµ±Ç°ÏîËùÓ³ÉäµÄÎïÀíÄÚ´æµØÖ· + ¸ÃÒ³µÄ±êÖ¾£¨ÕâÀï¾ùÎª7£©¡£
+ 299              		# Ê¹ÓÃµÄ·½·¨ÊÇ´Ó×îºóÒ»¸öÒ³±íµÄ×îºóÒ»Ïî¿ªÊ¼°´µ¹ÍËË³ĞòÌîĞ´¡£Ò»¸öÒ³±íµÄ×îºóÒ»ÏîÔÚÒ³±íÖĞµÄ
+ 300              		# Î»ÖÃÊÇ1023*4 = 4092¡£Òò´Ë×îºóÒ»Ò³µÄ×îºóÒ»ÏîµÄÎ»ÖÃ¾ÍÊÇ$pg3+4092¡£
+ 301 5482 BFFC4F00 		movl $pg3+4092,%edi			 # edi->×îºóÒ»Ò³µÄ×îºóÒ»Ïî¡£
+ 301      00
+ 302 5487 B807F0FF 		movl $0xfff007,%eax			/*  16Mb - 4096 + 7 (r/w user,p) */
+ 302      00
+ 303              									 # ×îºó1 Ïî¶ÔÓ¦ÎïÀíÄÚ´æÒ³ÃæµÄµØÖ·ÊÇ0xfff000£¬
+ 304              									 # ¼ÓÉÏÊôĞÔ±êÖ¾7£¬¼´Îª0xfff007.
+ 305 548c FD       		std							 # ·½ÏòÎ»ÖÃÎ»£¬edi Öµµİ¼õ(4 ×Ö½Ú)¡£
+ 306 548d AB       	1:	stosl						/* fill pages backwards - more efficient :-) */
+ 307 548e 2D001000 		subl $0x1000,%eax			 # Ã¿ÌîĞ´ºÃÒ»Ïî£¬ÎïÀíµØÖ·Öµ¼õ0x1000¡£
+ 307      00
+ 308 5493 7DF8     		jge 1b						 # Èç¹ûĞ¡ÓÚ0 ÔòËµÃ÷È«ÌíĞ´ºÃÁË¡£
+ 309              		# ÉèÖÃÒ³Ä¿Â¼»ùÖ·¼Ä´æÆ÷cr3 µÄÖµ£¬Ö¸ÏòÒ³Ä¿Â¼±í¡£
+ 310 5495 31C0     		xorl %eax,%eax			/* pg_dir is at 0x0000 */  # Ò³Ä¿Â¼±íÔÚ0x0000 ´¦¡£
+ 311 5497 0F22D8   		movl %eax,%cr3			/* cr3 - page directory start */
+ 312              		# ÉèÖÃÆô¶¯Ê¹ÓÃ·ÖÒ³´¦Àí£¨cr0 µÄPG ±êÖ¾£¬Î»31£©
+ 313 549a 0F20C0   		movl %cr0,%eax
+ 314 549d 0D000000 		orl $0x80000000,%eax	 # ÌíÉÏPG ±êÖ¾¡£
+ 314      80
+ 315 54a2 0F22C0   		movl %eax,%cr0			/* set paging (PG) bit */
+ 316 54a5 C3       		ret			/* this also flushes prefetch-queue */	
+ 317              	# ÔÚ¸Ä±ä·ÖÒ³´¦Àí±êÖ¾ºóÒªÇóÊ¹ÓÃ×ªÒÆÖ¸ÁîË¢ĞÂÔ¤È¡Ö¸Áî¶ÓÁĞ£¬ÕâÀïÓÃµÄÊÇ·µ»ØÖ¸Áîret¡£
+ 318              	# ¸Ã·µ»ØÖ¸ÁîµÄÁíÒ»¸ö×÷ÓÃÊÇ½«¶ÑÕ»ÖĞµÄmain ³ÌĞòµÄµØÖ·µ¯³ö£¬²¢¿ªÊ¼ÔËĞĞ/init/main.c ³ÌĞò¡£
+ 319              	# ±¾³ÌĞòµ½´ËÕæÕı½áÊøÁË¡£
+ 320              	
+ 321              	.align 2		# °´4 ×Ö½Ú·½Ê½¶ÔÆëÄÚ´æµØÖ·±ß½ç¡£
+ 322 54a6 0000     	.word 0			# ÕâÀï¿Õ³ö2×Ö½Ú£¬ÕâÑùºóÃæµÄ³¤×ÖÊÇ4×Ö½Ú¶ÔÆëµÄ¡£
+ 323              	
+ 324              	#ÏÂÃæÁ½ĞĞÊÇlidt Ö¸ÁîµÄ6 ×Ö½Ú²Ù×÷Êı£º³¤¶È£¬»ùÖ·¡£
+ 325              	idt_descr:
+ 326 54a8 FF07     		.word 256*8-1			# idt contains 256 entries
+ 327 54aa B8540000 		.long _idt
+ 328              	.align 2
+ 329 54ae 0000     	.word 0
+ 330              	
+ 331              	# ÏÂÃæÁ½ĞĞÊÇlgdt Ö¸ÁîµÄ6 ×Ö½Ú²Ù×÷Êı£º³¤¶È£¬»ùÖ·¡£
+ 332              	gdt_descr:
+ 333 54b0 FF07     		.word 256*8-1			# so does gdt (not that that's any
+ 334 54b2 B85C0000 		.long _gdt				# magic number, but it works for me :^)
+ 335              	
+ 336 54b6 6690     		.align 8
+GAS LISTING D:/CODE/Linux11_game_demo/Snake0/boot/head.s 			page 8
+
+
+ 337 54b8 00000000 	_idt:	.fill 256,8,0		# idt is uninitialized  # 256 Ïî£¬Ã¿Ïî8 ×Ö½Ú£¬Ìî0¡£
+ 337      00000000 
+ 337      00000000 
+ 337      00000000 
+ 337      00000000 
+ 338              	
+ 339              	# È«¾Ö±í¡£Ç°4 Ïî·Ö±ğÊÇ¿ÕÏî£¨²»ÓÃ£©¡¢´úÂë¶ÎÃèÊö·û¡¢Êı¾İ¶ÎÃèÊö·û¡¢ÏµÍ³¶ÎÃèÊö·û£¬ÆäÖĞ
+ 340              	# ÏµÍ³¶ÎÃèÊö·ûlinux Ã»ÓĞÅÉÓÃ´¦¡£ºóÃæ»¹Ô¤ÁôÁË252 ÏîµÄ¿Õ¼ä£¬ÓÃÓÚ·ÅÖÃËù´´½¨ÈÎÎñµÄ
+ 341              	# ¾Ö²¿ÃèÊö·û(LDT)ºÍ¶ÔÓ¦µÄÈÎÎñ×´Ì¬¶ÎTSS µÄÃèÊö·û¡£
+ 342              	# (0-nul, 1-cs, 2-ds, 3-sys, 4-TSS0, 5-LDT0, 6-TSS1, 7-LDT1, 8-TSS2 etc...)
+ 343 5cb8 00000000 	_gdt:	.quad 0x0000000000000000		/* NULL descriptor */
+ 343      00000000 
+ 344 5cc0 FF0F0000 			.quad 0x00c09a0000000fff		/* 16Mb */ # ´úÂë¶Î×î´ó³¤¶È16M¡£
+ 344      009AC000 
+ 345 5cc8 FF0F0000 			.quad 0x00c0920000000fff		/* 16Mb */ # Êı¾İ¶Î×î´ó³¤¶È16M¡£
+ 345      0092C000 
+ 346 5cd0 00000000 			.quad 0x0000000000000000		/* TEMPORARY - don't use */
+ 346      00000000 
+ 347 5cd8 00000000 			.fill 252,8,0					/* space for LDT's and TSS's etc */ # Ô¤Áô¿Õ¼ä
+ 347      00000000 
+ 347      00000000 
+ 347      00000000 
+ 347      00000000 
